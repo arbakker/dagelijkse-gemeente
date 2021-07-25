@@ -31,6 +31,15 @@ uriencode() {
   printf %s "$s"
 }
 
+function trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   
+    printf '%s' "$var"
+}
+
 function gen_gemeente_map(){
     mode=$1
     filter=$2
@@ -49,9 +58,12 @@ function gen_gemeente_map(){
     curl -s "$WFS_GET_FEATURE_URL" | ogr2ogr "$FILENAME" /vsistdin/ -makevalid # fix invalid geoms in bestuurlijkegebieden wfs
     BBOX=$(ogrinfo "$FILENAME" "$LAYERNAME" -so | grep "Extent:" | sed -rn 's|Extent: \(([0-9]+\.[0-9]+), ([0-9]+\.[0-9]+)\) - \(([0-9]+\.[0-9]+), ([0-9]+\.[0-9]+)\)|\1,\2,\3,\4|p')
 
-    GEMEENTE_NAAM=$(ogrinfo "$FILENAME" "$LAYERNAME" -geom=NO | grep "naam (String)" | cut -d= -f2 | xargs -0)
-    PROVINCIE_NAAM=$(ogrinfo "$FILENAME" "$LAYERNAME" -geom=NO | grep "ligtInProvincieNaam (String)" | cut -d= -f2 | xargs -0)
-    GM_CODE=$(ogrinfo "$FILENAME" "$LAYERNAME" -geom=NO | grep "code (String)" | cut -d= -f2 | xargs -0)
+    GEMEENTE_NAAM=$(ogrinfo "$FILENAME" "$LAYERNAME" -geom=NO | grep "naam (String)" | cut -d= -f2)
+    GEMEENTE_NAAM=$(trim "$GEMEENTE_NAAM")
+    PROVINCIE_NAAM=$(ogrinfo "$FILENAME" "$LAYERNAME" -geom=NO | grep "ligtInProvincieNaam (String)" | cut -d= -f2)
+    PROVINCIE_NAAM=$(trim "$PROVINCIE_NAAM")
+    GM_CODE=$(ogrinfo "$FILENAME" "$LAYERNAME" -geom=NO | grep "code (String)" | cut -d= -f2)
+    GM_CODE=$(trim "$GM_CODE")
 
     IFS=',' read -r -a BBOX_ARRAY <<< "$BBOX"
 
@@ -77,7 +89,7 @@ function gen_gemeente_map(){
     CRS="EPSG:28992"
     GET_IMAGE_URL="https://service.pdok.nl/hwh/luchtfotorgb/wms/v1_0?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&EXCEPTIONS=XML&FORMAT=image%2Fpng&BBOX=$minx,$miny,$maxx,$maxy&WIDTH=${WIDTH}&HEIGHT=${HEIGHT}&LAYERS=Actueel_ortho25&crs=${CRS}"
 
-    DATA_DIR="./data"
+    DATA_DIR="./maps"
     mkdir -p $DATA_DIR
     OUTPUT_FILE="${DATA_DIR}/${GM_CODE}.png"
     curl -s "$GET_IMAGE_URL" | \
@@ -132,7 +144,7 @@ case $MODE in
 
         start_index=${2:-0}
 
-        for i in $(seq 0 "$upper_index"); do
+        for i in $(seq "$start_index" "$upper_index"); do
             gen_gemeente_map index "$i"
         done
     ;;
