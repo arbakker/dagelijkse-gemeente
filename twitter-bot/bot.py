@@ -23,21 +23,19 @@ if not ACCESS_TOKEN_SECRET:
     print(f"ACCESS_TOKEN_SECRET not set as environmental variable")
     exit(1)
 
-print(CONSUMER_KEY)
-print(CONSUMER_SECRET)
-print(ACCESS_TOKEN)
-print(ACCESS_TOKEN_SECRET)
-
 # Authenticate to Twitter
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+
 today = date.today()
 date_string = today.strftime("%Y-%m-%d")
 schedule = json.load(open('./schedule.json', 'r'))
 gm_code = schedule[date_string]
+
 # Create API object
 api = tweepy.API(auth)
 basedir = "../atlas/maps/"
 filename = f"{basedir}{gm_code}.png"
 message = f"Gemeente {gm_code}: https://arbakker.github.io/dagelijkse-gemeente-bot/#gmcode={gm_code}"
 api.update_with_media(filename, status=message)
+print("tweet send successfully")
