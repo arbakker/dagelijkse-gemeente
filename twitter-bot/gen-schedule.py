@@ -14,7 +14,7 @@ basedir = "../atlas/maps/"
 gm_codes = get_gm_codes()
 today = date.today()
 sdate = date(int(today.strftime("%Y")), int(today.strftime("%m")),
-             int(today.strftime("%d")))   # start date
+             int(today.strftime("%d"))-1)   # start date
 edate = date(int(today.strftime("%Y"))+1, 12, 31)   # end date
 
 delta = edate - sdate       # as timedelta
