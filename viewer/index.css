@@ -1,0 +1,49 @@
+html, body { margin: 0; padding: 0; }
+
+#map { 
+    height: 100vh; 
+    background: transparent; 
+}
+
+body{
+    margin:0px;
+    background-color: white;
+}
+.brta{
+    filter: grayscale(100%)
+}
+
+
+.monospace {
+    font-family: "Noto-Mono","Consolas","Lucida Console", monospace;
+}
+
+.container {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow-y: scroll;
+    flex-direction: column;
+}
+
+#errorMessage{
+    color: red;
+    font-size: 24px;
+    margin-bottom: 0.5em;
+}
+
+.center {
+   width: 50%;   
+   text-align: center;
+}
+
+#title{
+    position: absolute; bottom: 0; left: 0; margin-left: 1em; text-shadow: 0 0 3px white;
+    font-size: 24px;
+}
+@font-face {
+    font-family: 'Noto-Mono';
+    src: url('url:./fonts/NotoMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
