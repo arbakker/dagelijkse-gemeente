@@ -92,6 +92,8 @@ function gen_gemeente_map(){
     DATA_DIR="./maps"
     mkdir -p $DATA_DIR
     OUTPUT_FILE="${DATA_DIR}/${GM_CODE}.png"
+
+    # requires installation of https://fonts.google.com/specimen/Source+Code+Pro medium
     curl -s "$GET_IMAGE_URL" | \
         gdal_translate -a_srs ${CRS} -a_ullr "$minx" "$maxy" "$maxx" "$miny" /vsistdin/ /vsistdout/ | \
             gdalwarp -r cubic -cblend 2 -dstalpha -cutline "$FILENAME" -cl "$LAYERNAME" /vsistdin/ /vsistdout/ | \
@@ -100,7 +102,7 @@ function gen_gemeente_map(){
                         -pointsize 30 \
                         -background 'rgba(0, 0, 0, 0)' \
                         -fill black \
-                        -font "Noto-Mono" \
+                        -font "Source-Code-Pro-Medium" \
                         label:"Gemeente ${GM_CODE} - ${GEMEENTE_NAAM} (Provincie ${PROVINCIE_NAAM})" \
                         -gravity center \
                         -append \
