@@ -1,7 +1,71 @@
-html, body { margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0;  height: 100vh; }
+
+
+@font-face {
+    font-family: 'Source Code Pro';
+    src: url('url:./fonts/SourceCodePro-Medium.ttf' ) format('truetype');
+    font-weight: medium;
+    font-style: normal;
+}
+
+
+:root {
+    --primary-color: #39393A;
+    --secondary-color: #63B0CD;
+    --tertiary-color: white;
+    --nav-height: 3em;
+}
+
+.logo-icon{
+    fill:  var(--secondary-color);
+}
+
+.logo-text{
+    fill: var(--tertiary-color);
+}
+
+.navlogo{
+    height: calc(var(--nav-height) - 1em);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0.5em;
+    display: block;
+}
+
+.social{
+    height: calc(var(--nav-height) - calc(var(--nav-height)/2));
+    margin-right: 0.5em;
+    margin-left: 0;
+}
+
+.nav-link-right{
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+}
+
+#app {
+    font-family: 'Source Code Pro';
+    font-weight: medium;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    height: 100vh;
+}
+
+.nav {
+    height: var(--nav-height);
+    background-color: var(--primary-color);
+    position: relative;
+    vertical-align: center;
+}
+
 
 #map { 
-    height: 100vh; 
+    height: calc(100vh - var(--nav-height));
     background: transparent; 
 }
 
@@ -15,14 +79,13 @@ body{
 
 
 .monospace {
-    font-family: "Noto-Mono","Consolas","Lucida Console", monospace;
+    font-family: "Source Code ","Consolas","Lucida Console", monospace;
 }
 
 .container {
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow-y: scroll;
+    height: calc(100vh - var(--nav-height));
     flex-direction: column;
 }
 
@@ -41,9 +104,10 @@ body{
     position: absolute; bottom: 0; left: 0; margin-left: 1em; text-shadow: 0 0 3px white;
     font-size: 24px;
 }
-@font-face {
-    font-family: 'Noto-Mono';
-    src: url('url:./fonts/NotoMono-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+
+
+.ol-zoom-in,.ol-zoom-out{
+    background-color: var(--primary-color) !important;
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* needed to support IE, my sympathies if that's the case */
 }

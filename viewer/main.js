@@ -184,7 +184,7 @@ clipSource.on('featuresloaderror', function (e) {
   })
 
   if (!document.getElementById('input-gemeenten')) {
-    const input = '<input id="input-gemeenten" list="gemeenten" placeholder="Start met typen...">'
+    const input = '<input class="monospace" id="input-gemeenten" list="gemeenten" placeholder="Start met typen...">'
     const dataList = `<datalist id="gemeenten">${options}</datalist>`
 
     const inputEl = htmlToElement(input)
