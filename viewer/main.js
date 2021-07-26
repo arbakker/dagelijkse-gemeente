@@ -132,8 +132,8 @@ const map = new Map({
   layers: [brtaLayer, lufoLayer, clipLayer],
   target: 'map',
   view: new View({
-    center: fromLonLat([8.23, 46.86]),
-    zoom: 7
+    center: fromLonLat([5.417633, 52.152916]),
+    zoom: 8
   })
 })
 
@@ -196,8 +196,9 @@ clipSource.on('featuresloaderror', function (e) {
     inputEl.addEventListener('input', function (e) {
       const shownVal = e.target.value
       const options = document.getElementById('gemeenten').children
-
       let validVal = false
+
+      // validate input, if input is valid option fromd datalist trigger change
       for (let i = 0; i < options.length; i++) {
         if (options[i].value === shownVal) {
           validVal = true
