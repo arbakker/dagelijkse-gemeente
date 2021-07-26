@@ -25,7 +25,7 @@ html, body { margin: 0; padding: 0;  height: 100vh; }
 }
 
 .navlogo{
-    height: calc(var(--nav-height) - 1em);
+    height: calc(var(--nav-height) - calc(var(--nav-height)/2));
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -34,7 +34,6 @@ html, body { margin: 0; padding: 0;  height: 100vh; }
 }
 
 .social{
-    height: calc(var(--nav-height) - calc(var(--nav-height)/2));
     margin-right: 0.5em;
     margin-left: 0;
     fill: white;
@@ -84,21 +83,23 @@ body{
 }
 
 .container {
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     height: calc(100vh - var(--nav-height));
     flex-direction: column;
+    margin-top: 2em;
 }
 
 #errorMessage{
-    color: red;
-    font-size: 24px;
+    color: red;    
     margin-bottom: 0.5em;
 }
 
 .center {
    width: 50%;   
    text-align: center;
+   font-size: 20px;
+   margin-bottom: 0.5em;
 }
 
 #title{

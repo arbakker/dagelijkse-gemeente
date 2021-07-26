@@ -83,7 +83,6 @@ clipSource.setLoader((extent, resolution, projection, success, failure) => {
   }
   const features = gemeenten.features
   const featuresFilter = features.filter(x => x.properties.code === gmCode)
-  console.log(featuresFilter.length)
   if (featuresFilter.length === 0) {
     failure()
     return
@@ -138,7 +137,6 @@ const map = new Map({
 })
 
 clipSource.on('featuresloadend', function (e) {
-  console.log('featuresloadend')
   document.getElementById('errorMessage').innerText = ''
   document.getElementById('map').style.display = 'block'
   document.getElementById('error').style.display = 'none'
@@ -164,11 +162,10 @@ function htmlToElement (html) {
 clipSource.on('featuresloaderror', function (e) {
   const gmCode = getHashValue('gmcode')
   if (gmCode) {
-    document.getElementById('errorMessage').style.color = 'red'
+    document.getElementById('errorMessage').style.display = 'block'
     document.getElementById('errorMessage').innerText = `ERROR: GEMEENTE MET CODE ${gmCode} BESTAAT NIET`
   } else {
-    document.getElementById('errorMessage').style.color = 'black'
-    document.getElementById('errorMessage').innerText = 'Zoek een gemeente:'
+    document.getElementById('errorMessage').style.display = 'none'
     history.pushState(undefined, undefined, '#home')
   }
   gemeenten.features.sort(function (a, b) {
@@ -184,14 +181,34 @@ clipSource.on('featuresloaderror', function (e) {
   })
 
   if (!document.getElementById('input-gemeenten')) {
-    const input = '<input class="monospace" id="input-gemeenten" list="gemeenten" placeholder="Start met typen...">'
+    const title = '<div class="center monospace">Zoek een gemeente:</div>'
+    const input = '<input class="monospace" style="padding:0.5em;" id="input-gemeenten" list="gemeenten" placeholder="Start met typen...">'
     const dataList = `<datalist id="gemeenten">${options}</datalist>`
 
+    const titleEl = htmlToElement(title)
     const inputEl = htmlToElement(input)
     const datalistEl = htmlToElement(dataList)
 
+    const hr = '<hr style="width: 30%;">'
+    const hrEl = htmlToElement(hr)
+    const message = '<div class="center monospace">Willekeurige Gemeente:</div>'
+    const messageEl = htmlToElement(message)
+    const button = '<button type="button" style="padding:0.5em;">Gaan</button>'
+    const buttonEl = htmlToElement(button)
+
+    document.getElementById('error').append(titleEl)
     document.getElementById('error').append(inputEl)
     document.getElementById('error').append(datalistEl)
+    document.getElementById('error').append(hrEl)
+    document.getElementById('error').append(messageEl)
+    document.getElementById('error').append(buttonEl)
+
+    buttonEl.addEventListener('click', function (e) {
+      const selectedFeature = gemeenten.features[Math.floor(Math.random() * gemeenten.features.length)]
+      const gmcode = selectedFeature.properties.code
+      history.pushState(undefined, undefined, `#gmcode=${gmcode}`)
+      hashHandler(null)
+    })
 
     inputEl.addEventListener('input', function (e) {
       const shownVal = e.target.value
