@@ -193,8 +193,20 @@ clipSource.on('featuresloaderror', function (e) {
     document.getElementById('error').append(inputEl)
     document.getElementById('error').append(datalistEl)
 
-    inputEl.addEventListener('select', function (e) {
+    inputEl.addEventListener('input', function (e) {
       const shownVal = e.target.value
+      const options = document.getElementById('gemeenten').children
+
+      let validVal = false
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value === shownVal) {
+          validVal = true
+        }
+      }
+      if (!validVal) {
+        return
+      }
+
       const ft = gemeenten.features.filter(x => x.properties.naam === shownVal)[0]
       const gmcode = ft.properties.code
       history.pushState(undefined, undefined, `#gmcode=${gmcode}`)
