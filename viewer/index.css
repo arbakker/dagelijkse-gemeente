@@ -37,6 +37,7 @@ html, body { margin: 0; padding: 0;  height: 100vh; }
     height: calc(var(--nav-height) - calc(var(--nav-height)/2));
     margin-right: 0.5em;
     margin-left: 0;
+    fill: white;
 }
 
 .nav-link-right{
